@@ -1,4 +1,3 @@
-/* --- Global Styles --- */
 :root {
     --primary-color: #2c3e50;
     --secondary-color: #3498db;
@@ -40,7 +39,6 @@ header {
     margin-bottom: 2rem;
 }
 
-/* --- Form Layout --- */
 .form-group {
     display: flex;
     gap: 1rem;
@@ -60,7 +58,6 @@ input, select {
 
 label { font-weight: bold; display: block; margin-bottom: 5px; }
 
-/* --- Buttons --- */
 button {
     cursor: pointer;
     border: none;
@@ -83,8 +80,6 @@ button {
 }
 
 button:hover { opacity: 0.85; }
-
-/* --- Table --- */
 #list-section { overflow-x: auto; }
 
 table {
@@ -100,8 +95,6 @@ th, td {
 }
 
 th { background-color: #f8f9fa; color: #7f8c8d; font-size: 0.8rem; text-transform: uppercase; }
-
-/* --- Modals --- */
 .modal {
     display: none;
     position: fixed;
@@ -129,11 +122,10 @@ th { background-color: #f8f9fa; color: #7f8c8d; font-size: 0.8rem; text-transfor
     font-size: 1.5rem;
     cursor: pointer;
 }
-
-/* --- Print Logic --- */
 @media print {
     body * { visibility: hidden; }
     #transcript-content, #transcript-content * { visibility: visible; }
     #transcript-content { position: absolute; left: 0; top: 0; width: 100%; }
     button, .close-btn { display: none !important; }
+
 }
