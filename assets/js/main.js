@@ -1,17 +1,9 @@
-// --- 1. DOM Elements ---
 const studentForm = document.getElementById('student-form');
 const studentTableBody = document.getElementById('student-tbody');
 const searchInput = document.getElementById('search-input');
 const performanceModal = document.getElementById('performance-modal');
 const viewModal = document.getElementById('view-modal');
 const performanceForm = document.getElementById('performance-form');
-
-// --- 2. Event Listeners ---
-
-/**
- * Handle Student Registration
- * Connects to addStudent() in data.js
- */
 studentForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -21,7 +13,7 @@ studentForm.addEventListener('submit', (e) => {
         age: parseInt(document.getElementById('student-age').value),
         gender: document.getElementById('student-gender').value,
         form: parseInt(document.getElementById('student-form-level').value),
-        performance: [] // Holds academic records for Form 1-4
+        performance: [] 
     };
 
     if (addStudent(newStudent)) {
@@ -29,18 +21,11 @@ studentForm.addEventListener('submit', (e) => {
         refreshUI();
     }
 });
-
-/**
- * Handle Table Actions using Event Delegation
- * Ensures buttons for 'Marks', 'History', 'Promote', and 'Delete' function correctly.
- */
 studentTableBody.addEventListener('click', (e) => {
     const target = e.target;
     const id = target.dataset.id;
     
     if (!id) return;
-
-    // Delete Student
     if (target.classList.contains('btn-danger')) {
         if (confirm("Delete this student permanently?")) {
             deleteStudent(id);
@@ -48,26 +33,19 @@ studentTableBody.addEventListener('click', (e) => {
         }
     } 
     
-    // Open Performance Modal (+ Marks)
     if (target.id === 'btn-add-marks') {
         openPerformanceModal(id);
     }
-
-    // View Academic History (Transcript)
     if (target.id === 'btn-view-history') {
         viewStudentRecords(id);
     }
-
-    // Promote to Next Form
+    
     if (target.id === 'btn-promote') {
         promoteStudent(id); 
         refreshUI();
     }
 });
 
-/**
- * Handle Performance Form Submission (Requirement 5.4)
- */
 performanceForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const id = document.getElementById('target-student-id').value;
@@ -84,9 +62,6 @@ performanceForm.addEventListener('submit', (e) => {
     refreshUI();
 });
 
-/**
- * Handle Real-time Search
- */
 searchInput.addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase();
     const filtered = students.filter(s => 
@@ -95,15 +70,10 @@ searchInput.addEventListener('input', (e) => {
     renderTable(filtered);
 });
 
-// --- 3. UI Functions ---
 
 function refreshUI() {
     renderTable(students);
 }
-
-/**
- * Renders the main student dashboard table
- */
 function renderTable(data) {
     studentTableBody.innerHTML = "";
     
@@ -134,24 +104,19 @@ const row = `
     });
 }
 
-// --- 4. Modal Logic ---
-
 function openPerformanceModal(id) {
     const student = students.find(s => s.id === id);
     document.getElementById('target-student-id').value = id;
-    
-    // Check if the student already has scores for the current form
     const currentRecord = student.performance.find(rec => rec.form === student.form);
 
     if (currentRecord) {
-        // Fill the form with existing marks for updating
         document.getElementById('math-score').value = currentRecord.subjects.math;
         document.getElementById('english-score').value = currentRecord.subjects.english;
         document.getElementById('science-score').value = currentRecord.subjects.science;
         document.getElementById('social-score').value = currentRecord.subjects.social;
         document.getElementById('modal-title').innerText = `Update Results (Form ${student.form})`;
     } else {
-        // Clear the form for a new entry
+       
         performanceForm.reset();
         document.getElementById('modal-title').innerText = `Add Results (Form ${student.form})`;
     }
@@ -164,9 +129,6 @@ function closeModal() {
     performanceForm.reset();
 }
 
-/**
- * Displays the Academic Transcript Modal (Requirement 5.4)
- */
 function viewStudentRecords(id) {
     const student = students.find(s => s.id === id);
     const content = document.getElementById('transcript-content');
@@ -207,11 +169,10 @@ function closeViewModal() {
     viewModal.style.display = 'none';
 }
 
-// Handle clicks outside of modals to close them
 window.onclick = (e) => { 
     if (e.target == performanceModal) closeModal(); 
     if (e.target == viewModal) closeViewModal();
 };
 
-// --- 5. Initial Execution ---
+
 refreshUI();
